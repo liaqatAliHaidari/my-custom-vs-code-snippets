@@ -1,0 +1,38 @@
+{
+	"Custome Validation": {
+	  "prefix": "csvalidation",
+	  "body": [
+		"$$error = array(",
+		"  'error_status'=>0",
+		");",
+		"if (empty($${1:fieledName})) {",
+		"  $$error['error_status']=1;",
+		"  $$error['${1:fieledName}']= '${2:error_message}';",
+		"}",
+		"if ($$error['error_status']>0) {",
+		"  echo json_encode($$error);",
+		"  exit();",
+		"}"
+	  ],
+	  "description": "Custome Validation"
+	},
+	"Custome Result": {
+	  "prefix": "csresponse",
+	  "body": [
+		"if ($${1:result}) {",
+		"  $$response = array(",
+		"      'status'=>1,",
+		"      'msg'=>'${2:Success Message}'",
+		"  );",
+		"} else {",
+		"  $$response = array(",
+		"      'status'=>0,",
+		"      'msg'=>'${3:Failure Message}'",
+		"  );",
+		"}",
+		"echo json_encode($$response);",
+		"exit();"
+	  ],
+	  "description": "Custome Result"
+	}
+  }

@@ -1,0 +1,119 @@
+{
+	"jQuery Ajax with Validation": {
+		"prefix": "csajax",
+		"body": [
+			"$('#${1:formId}').on('submit', function(e) {",
+			"    e.preventDefault();",
+			"    var data = new FormData($(this)[0]);",
+			"    var form = $(this);",
+			"    form.find(':submit').attr('disabled', true);",
+			"    var url = \"<?php echo base_url('$2') ?>\";",
+			"      $.ajax({",
+			"        type: 'POST',",
+			"        url: url,",
+			"        data: data,",
+			"        dataType: 'JSON',",
+			"        processData: false,",
+			"        contentType: false,",
+			"        error: function(xhr, textStatus, errorThrown) {",
+			"          console.log(xhr.responseText);",
+			"        },",
+			"        success: function(response) {",
+			"          form.find(':submit').attr('disabled', false);",
+			"          if (response.error_status = 1) {",
+			"            form.find('small').text('');",
+			"            // If validation error exists",
+			"            for (var key in response) {",
+			"              var errorContainer = form.find(`#${{key}}Error`);",
+			"              if (errorContainer.length !== 0) {",
+			"                errorContainer.html(response[key]);",
+			"              }",
+			"            }",
+			"          }",
+			"          if (response.status == 1) {",
+			"          form.trigger('reset');",
+			"          form.find('small').text('');",
+			"            // handling success respone",
+			"",
+			"            $.toast({",
+			"              heading: 'Success!',",
+			"              text: response.msg,",
+			"              icon: 'success'",
+			"            });",
+			"          } else if (response.status == 0) {",
+			"            // Handling failure response",
+			"            ",
+			"            $.toast({",
+			"              heading: 'Failed!',",
+			"              text: response.msg,",
+			"              icon: 'warning'",
+			"            });",
+			"          }",
+			"        }",
+			"      });",
+			"    });"
+		],
+		"description": "jQuery Ajax with Validation"
+	},
+	"jQuery toast ": {
+		"prefix": "cstoast",
+		"body": [
+			"$.toast({",
+			"  heading: '$1!',",
+			"  text: $2,",
+			"  icon: '$3',",
+			"  afterShown: function () {",
+			"   $4",
+			"  }",
+			"});"
+		],
+		"description": "jQuery toast "
+	},
+	"action of modal hide": {
+		"prefix": "csmodalhide",
+		"body": [
+			"$('#${1:modal_id}').on('hide.bs.modal', function(e) {",
+			"    $('#${2:modal_form_id}').trigger(\"reset\");",
+			"    $('#${2:modal_form_id}').find(\"small\").text(\"\");",
+			"    $('#${2:modal_form_id}').find(\"select\").val('').trigger(\"change\");",
+			"});"
+		],
+		"description": "action of modal hide"
+	},
+	"function for creating axis break": {
+		"prefix": "csaxisbreakfunc",
+		"body": [
+			"function creatAxisBreak(valueAxis,min,max){",
+			"      // axis break",
+			"      var axisBreak = valueAxis.axisBreaks.create();",
+			"      axisBreak.startValue = min;",
+			"      axisBreak.endValue = max;",
+			"      //axisBreak.breakSize = 0.005;",
+			"",
+			"      // fixed axis break",
+			"      var d = (axisBreak.endValue - axisBreak.startValue) / (valueAxis.max - valueAxis.min);",
+			"      axisBreak.breakSize = 0.05 * (1 - d) / d; // 0.05 means that the break will take 5% of the total value axis height",
+			"",
+			"      // make break expand on hover",
+			"      var hoverState = axisBreak.states.create(\"hover\");",
+			"      hoverState.properties.breakSize = 1;",
+			"      hoverState.properties.opacity = 0.1;",
+			"      hoverState.transitionDuration = 1500;",
+			"",
+			"      axisBreak.defaultState.transitionDuration = 1000;",
+			"  }"
+		],
+		"description": "function for creating axis break"
+	},
+	"calling axis break function": {
+		"prefix": "csaxisbreakfunccall",
+		"body": [
+			"valueAxis.min = 0;",
+			"valueAxis.max = 0;",
+			"valueAxis.strictMinMax = true;",
+			"valueAxis.renderer.minGridDistance = 30;",
+			"creatAxisBreak(valueAxis,0,0);"
+		],
+		"description": "calling axis break function"
+	}
+}
